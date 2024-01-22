@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-gin-crud/controllers"
 	"go-gin-crud/initializers"
+	"go-gin-crud/middlewares"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,7 +18,7 @@ func main() {
 	r := gin.Default()
 
 	r.POST("/post", controllers.PostCreate)
-	r.GET("/post", controllers.AllPost)
+	r.GET("/post", middlewares.RequireAuth, controllers.AllPost)
 	r.GET("/post/:id", controllers.GetPost)
 	r.PUT("/post/:id", controllers.UpdatePost)
 	r.DELETE("/post/:id", controllers.RemovePost)

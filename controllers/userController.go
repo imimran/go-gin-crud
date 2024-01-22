@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -90,11 +90,15 @@ func Login(c *gin.Context) {
 
 	// tokenString, err := token.SignedString(os.Getenv("PRIVATE_KEY"))
 	var key = []byte("your-secret-key")
+
 	tokenString, err := token.SignedString(key)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error generating token"})
 		return
 	}
+
+	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetCookie("Authorization", tokenString, 3600*24*30, "", "", false, true)
 
 	c.JSON(http.StatusOK, gin.H{"token": tokenString})
 }
