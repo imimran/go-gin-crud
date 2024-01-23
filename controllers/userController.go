@@ -4,6 +4,7 @@ import (
 	"go-gin-crud/initializers"
 	"go-gin-crud/models"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -88,8 +89,7 @@ func Login(c *gin.Context) {
 		"exp":      time.Now().Add(time.Hour * 1).Unix(),
 	})
 
-	// tokenString, err := token.SignedString(os.Getenv("PRIVATE_KEY"))
-	var key = []byte("your-secret-key")
+	var key = []byte(os.Getenv("KEY"))
 
 	tokenString, err := token.SignedString(key)
 	if err != nil {

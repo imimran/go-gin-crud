@@ -17,6 +17,8 @@ func init() {
 func main() {
 	r := gin.Default()
 
+	r.Use(middlewares.ErrorHandler())
+
 	r.POST("/post", controllers.PostCreate)
 	r.GET("/post", middlewares.RequireAuth, controllers.AllPost)
 	r.GET("/post/:id", controllers.GetPost)

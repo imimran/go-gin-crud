@@ -5,6 +5,7 @@ import (
 	"go-gin-crud/initializers"
 	"go-gin-crud/models"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -28,7 +29,7 @@ func RequireAuth(c *gin.Context) {
 		}
 
 		// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
-		var key = []byte("your-secret-key")
+		var key = []byte(os.Getenv("KEY"))
 		return key, nil
 	})
 
